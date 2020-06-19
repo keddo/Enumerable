@@ -33,10 +33,22 @@ module Enumerable
     end
     my_arr
   end
+
+  def my_count(num=0)
+    sum = 0
+    length.times {|x| sum += 1} if num != 0
+    sum = self.max if !block_given?
+    for i in self
+      if block_given?
+        sum += 1 if yield(i)
+      end
+    end
+    sum
+  end
 end
 
 hash = { name: "kedir", last: "Abdu"}
-arr = [1, 2, 4, 6]
+# arr = [1, 2, 4, 6]
 # hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
 # # arr.my_each
 # arr.my_each { |x| puts x }
@@ -59,3 +71,7 @@ arr = [1, 2, 4, 6]
 #     puts i 
 #   end 
 # end
+
+
+arr = [1,3,4,5,6,7,8]
+p arr.my_count {|x| x >= 5}
