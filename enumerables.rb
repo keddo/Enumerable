@@ -15,6 +15,15 @@ module Enumerable
     end
     self
   end
+
+  def my_map
+    return to_enum unless block_given?
+    my_arr = []
+    for i in self
+      my_arr << yield(i) if block_given?
+    end
+    my_arr
+  end
 end
 
 hash = { name: "kedir", last: "Abdu"}
@@ -31,3 +40,7 @@ arr = [1, 2, 4, 6]
 
 # friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
 # friends.my_select { |friend| friend != "Brian" }
+
+# arr.my_map do |i|
+#   puts i * 3
+# end
