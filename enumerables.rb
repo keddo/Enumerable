@@ -24,6 +24,15 @@ module Enumerable
     end
     my_arr
   end
+
+  def my_select
+    return to_enum unless block_given?
+    my_arr = []
+    for i in self 
+      my_arr << i if yield(i) 
+    end
+    my_arr
+  end
 end
 
 hash = { name: "kedir", last: "Abdu"}
@@ -43,4 +52,10 @@ arr = [1, 2, 4, 6]
 
 # arr.my_map do |i|
 #   puts i * 3
+# end
+
+# arr.my_select do |i|
+#   if i % 2 == 0
+#     puts i 
+#   end 
 # end
