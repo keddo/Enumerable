@@ -1,16 +1,14 @@
-# Project Name
+# Enumerable Methods
 
-> One paragraph statement about the project.
+> The objective the project is to rebuild Ruby enumerable methods.
 
-![screenshot](./app_screenshot.png)
+<!-- ![screenshot](./app_screenshot.png) -->
 
 Additional description about the project and its features.
 
 ## Built With
 
-- Major languages,
-- frameworks,
-- technologies used
+- Ruby
 
 ## Live Demo
 
@@ -41,17 +39,17 @@ To get a local copy up and running follow these simple example steps.
 
 ## Authors
 
-👤 **Author1**
+👤 **Kedir Abdurahman**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
+- Github: [@keddo](https://github.com/keddo)
+- Twitter: [@kedirman](https://twitter.com/kedirman)
+- Linkedin: [Kedir Abdurahman](https://linkedin.com/in/kedirabdurahman/)
 
-👤 **Author2**
+👤 **Paul Ogolla**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
+- Github: [@paulzay](https://github.com/paulzay)
+- Twitter: [@_paulzay_](https://twitter.com/_paulzay_)
+- Linkedin: [Paul Ogolla](https://linkedin.com/in/paulogolla)
 
 ## 🤝 Contributing
 
