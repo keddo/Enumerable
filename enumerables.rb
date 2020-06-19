@@ -8,15 +8,26 @@ module Enumerable
   end
 
   def my_each_with_index
-    
+    return to_enum unless block_given?
+    arr = to_a
+    for i in 0...arr.length
+       yield(arr[i], i)
+    end
+    self
   end
 end
 
 hash = { name: "kedir", last: "Abdu"}
 arr = [1, 2, 4, 6]
-hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
-arr.my_each
+# hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
+# # arr.my_each
+# arr.my_each { |x| puts x }
+# (1..5).my_each { |y| puts y }
+# my_hash = Hash.new
 
-arr.my_each { |x| puts x }
+# %w(cat dog wombat).my_each_with_index {|item, index| my_hash[item] = index}
 
-(1..5).my_each { |y| puts y }
+# p my_hash
+
+# friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
+# friends.my_select { |friend| friend != "Brian" }
