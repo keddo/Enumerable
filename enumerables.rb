@@ -36,8 +36,8 @@ module Enumerable
 
   def my_count(num=0)
     sum = 0
-    length.times {|x| sum += 1} if num != 0
-    sum = self.max if !block_given?
+    length.times {|x| sum += 1 if self[x] == num } if num != 0
+    sum = self.max if !block_given? && num == 0
     for i in self
       if block_given?
         sum += 1 if yield(i)
@@ -72,6 +72,8 @@ hash = { name: "kedir", last: "Abdu"}
 #   end 
 # end
 
-
-arr = [1,3,4,5,6,7,8]
-p arr.my_count {|x| x >= 5}
+# my_count test cases
+arr = [1,3,4,5,6,7,8, 5, 5]
+p arr.my_count {|x| x >= 5} # when block is given
+p arr.my_count(1) # count the number of occurances of a number
+p arr.my_count # return the max number when no block and arg
