@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 module Enumerable
-
   def my_each
     return enum_for unless block_given?
+
     arr = to_a
     arr.length.times { |i| arr[i].is_a?(Array) ? yield(arr[i][0], arr[i][1]) : yield(arr[i]) }
     self
@@ -9,17 +10,19 @@ module Enumerable
 
   def my_each_with_index
     return to_enum unless block_given?
+
     arr = to_a
-    for i in 0...arr.length
-       yield(arr[i], i)
+    (0...arr.length).each do |i|
+      yield(arr[i], i)
     end
     self
   end
 
   def my_map
     return to_enum unless block_given?
+
     my_arr = []
-    for i in self
+    each do |i|
       my_arr << yield(i) if block_given?
     end
     my_arr
@@ -28,44 +31,49 @@ module Enumerable
   def my_select
     return to_enum unless block_given?
     my_arr = []
-    for i in self 
-      my_arr << i if yield(i) 
+    each do |i|
+      my_arr << i if yield(i)
     end
     my_arr
   end
 
   def my_all?(*args)
-     is_true = true
-     if block_given?
-        is_a?(Hash) ? to.a.my_each {|k, v| is_true = false unless yield(k, v) } : my_each {|x| is_true = false unless yield(x)}
-     else
-       if args[0].is_a?(Integer)
-          my_each {|x| is_true = false unless args[0] == x}
-       elsif args[0].is_a?(Class)
-          my_each {|x| is_true = false unless x.is_a?args[0]}
-       elsif args[0].nil?
-          my_each {|x| is_true = false if x == false || x.nil?}
-       elsif args[0].is_a?(Regexp)
-        my_each {|x| is_true = false if x.match(args[0]).nil?}
-       end
-     end
-     is_true
+    is_true = true
+    if block_given?
+      is_a?(Hash) ? to.a.my_each do |k, v|
+                      is_true = false unless yield(k, v)
+                    end : my_each do |x|
+                            is_true = false unless yield(x)
+                          end
+    else
+      if args[0].is_a?(Integer)
+        my_each { |x| is_true = false unless args[0] == x }
+      elsif args[0].nil?
+            my_each { |x| is_true = false if x == false || x.nil? }
+      elsif args[0].is_a?(Regexp)
+            my_each { |x| is_true = false if x.match(args[0]).nil? }
+      elsif args[0].is_a?(Object)
+            length.times { |x| is_true = false unless self[x].is_a?args[0]
+          }
+      end
+    end
+    is_true
   end
 
-  def my_count(num=0)
+  def my_count(num = 0)
     sum = 0
-    length.times {|x| sum += 1 if self[x] == num } if num != 0
-    sum = self.max if !block_given? && num == 0
-    for i in self
-      if block_given?
-        sum += 1 if yield(i)
+    length.times { |x| sum += 1 if self[x] == num } if num != 0
+    sum = max if !block_given? && num == 0
+    if block_given?
+      my_each do |i|
+          sum += 1 if yield(i)
       end
     end
     sum
   end
 end
 
-hash = { name: "kedir", last: "Abdu"}
+hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
 # hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
 # # arr.my_each
@@ -86,8 +94,8 @@ hash = { name: "kedir", last: "Abdu"}
 
 # arr.my_select do |i|
 #   if i % 2 == 0
-#     puts i 
-#   end 
+#     puts i
+#   end
 # end
 
 # my_count test cases
@@ -101,12 +109,13 @@ puts 'my_all?'
 puts '-------'
 p [1, 2, 3, 4, 5].my_all? # => true
 p [1, 2, 3].my_all?(Integer) # => true
+p [[1,2], [3, 9]].my_all?(Array)
 p %w[dog door rod blade].my_all?(/d/) # => true
 p [1, 1, 1].my_all?(1) # => true
 p [-8, -9, -6].my_all? { |n| n < 0 } # => true
 p [-8, -9, -6, 0].my_all? { |n| n < 0 } # => false
-p(("a".."z").my_all? {|i| i.is_a? String} )
+p(('a'..'z').my_all? { |i| i.is_a? String })
 p [2, 4, 8].my_all?(&:even?)
-even = Proc.new {|x| x % 2 == 0}
+even = proc { |x| x.even? }
 p [2, 4, 8].my_all?(&even)
 p [2, 3, 8].my_all?(&:odd?)
