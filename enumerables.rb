@@ -71,6 +71,28 @@ module Enumerable
     end
     sum
   end
+
+      # def my_count 
+  #   sum = 0
+  #   if block_given?
+  #     self.my_select{|i| yield(i)}.size
+  #   elsif sum != 0
+  #     self.my_select{|i| i == sum}.size
+  #   else
+  #     self.length
+  #   end
+  # end
+
+  def my_none?(i = nil)
+
+    return false if i != nil && i != false unless block_given?
+    for i in self
+      if block_given?
+        return false if yield(i)
+      end
+    end
+    true
+  end
 end
 
 hash = { name: 'kedir', last: 'Abdu' }
@@ -105,17 +127,26 @@ hash = { name: 'kedir', last: 'Abdu' }
 # p arr.my_count # return the max number when no block and arg
 
 # 4. my_all? (example test cases)
-puts 'my_all?'
-puts '-------'
-p [1, 2, 3, 4, 5].my_all? # => true
-p [1, 2, 3].my_all?(Integer) # => true
-p [[1,2], [3, 9]].my_all?(Array)
-p %w[dog door rod blade].my_all?(/d/) # => true
-p [1, 1, 1].my_all?(1) # => true
-p [-8, -9, -6].my_all? { |n| n < 0 } # => true
-p [-8, -9, -6, 0].my_all? { |n| n < 0 } # => false
-p(('a'..'z').my_all? { |i| i.is_a? String })
-p [2, 4, 8].my_all?(&:even?)
-even = proc { |x| x.even? }
-p [2, 4, 8].my_all?(&even)
-p [2, 3, 8].my_all?(&:odd?)
+# puts 'my_all?'
+# puts '-------'
+# p [1, 2, 3, 4, 5].my_all? # => true
+# p [1, 2, 3].my_all?(Integer) # => true
+# p [[1,2], [3, 9]].my_all?(Array)
+# p %w[dog door rod blade].my_all?(/d/) # => true
+# p [1, 1, 1].my_all?(1) # => true
+# p [-8, -9, -6].my_all? { |n| n < 0 } # => true
+# p [-8, -9, -6, 0].my_all? { |n| n < 0 } # => false
+# p(('a'..'z').my_all? { |i| i.is_a? String })
+# p [2, 4, 8].my_all?(&:even?)
+# even = proc { |x| x.even? }
+# p [2, 4, 8].my_all?(&even)
+# p [2, 3, 8].my_all?(&:odd?)
+# p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
+# p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
+# p [1,2,3,4,5].my_none? {|n| n <= 5}
+# p %w{ant bear cat}.my_none?(/d/)                        #=> true
+p [1, 3, 42].my_none?(Float)                         #=> false
+# p [].my_none?                                           #=> true
+# p [nil].my_none?                                        #=> true
+# p [nil, false].my_none?                                 #=> true
+# p [nil, false, true].my_none?  
