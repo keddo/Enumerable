@@ -77,12 +77,8 @@ module Enumerable
     if block_given?
       length.times {|i|  none = false if yield(self[i])}
     else 
-       if obj.nil?
-         length.times {|i| none = false  if self[i]}
-       elsif obj.is_a?(Regexp)
-        length.times {|i| none = false if self[i] =~ obj}
-       elsif obj.is_a?(Object)
-         length.times {|i| none = false if self[i].is_a?(obj)}
+       if obj.nil? || obj.is_a?(Regexp) || obj.is_a?(Object)
+         length.times {|i| none = false  if self[i] || self[i] =~ obj || self[i].is_a?(obj)}
        end
     end 
     none
