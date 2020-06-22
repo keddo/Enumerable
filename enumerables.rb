@@ -87,6 +87,22 @@ module Enumerable
     end 
     none
   end
+
+  def my_any?(*args)
+    any = false
+    if block_given?
+      my_each {|x| any = true if yield(x)}
+    else 
+      if args[0].nil?
+        my_each {|x| any = true  if x }
+      elsif args[0].is_a?(Regexp)
+       my_each {|x| any = true if x =~ obj}
+      elsif args[0].is_a?(Object)
+        my_each {|x| none = true if x.is_a?(obj)}
+      end
+    end
+    any
+  end
 end
 
 hash = { name: 'kedir', last: 'Abdu' }
@@ -135,12 +151,24 @@ hash = { name: 'kedir', last: 'Abdu' }
 # even = proc { |x| x.even? }
 # p [2, 4, 8].my_all?(&even)
 # p [2, 3, 8].my_all?(&:odd?)
-p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
-p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
-p [1,2,3,4,5].my_none? {|n| n <= 5}
-p %w{ant bear cat}.my_none?(/d/)                        #=> true
-p [1, 3.4, 42].my_none?(Float)                         #=> false
-p [].my_none?                                           #=> true
-p [nil].my_none?                                        #=> true
-p [nil, false].my_none?                                 #=> true
-p [nil, false, true].my_none?                           #=> false
+
+# 4. my_none? (example test cases)
+# puts 'my_none?'
+# p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
+# p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
+# p [1,2,3,4,5].my_none? {|n| n <= 5}
+# p %w{ant bear cat}.my_none?(/d/)                        #=> true
+# p [1, 3.4, 42].my_none?(Float)                         #=> false
+# p [].my_none?                                           #=> true
+# p [nil].my_none?                                        #=> true
+# p [nil, false].my_none?                                 #=> true
+# p [nil, false, true].my_none?                           #=> false
+
+# 4. my_any? (example test cases)
+puts 'my_any?'
+p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].any?(/d/)                        #=> false
+p [nil, true, 99].any?(Integer)                     #=> true
+p [nil, true, 99].any?                              #=> true
+p [].any?                                           #=> false
