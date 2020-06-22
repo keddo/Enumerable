@@ -93,12 +93,8 @@ module Enumerable
     if block_given?
       my_each {|x| any = true if yield(x)}
     else 
-      if args[0].nil?
-        my_each {|x| any = true  if x }
-      elsif args[0].is_a?(Regexp)
-       my_each {|x| any = true if x =~ obj}
-      elsif args[0].is_a?(Object)
-        my_each {|x| none = true if x.is_a?(obj)}
+      if args[0].nil? || args[0].is_a?(Regexp) || args[0].is_a?(Object)
+        my_each {|x| any = true  if x || x =~ obj || x.is_a?(obj)}
       end
     end
     any
@@ -124,7 +120,7 @@ def multiply_els(arr)
   arr = [1, 2, 4, 6]
   arr.my_inject { |mul, n| mul * n}
 end
-p multiply_els([2,4,5])
+# p multiply_els([2,4,5])
 
 hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
@@ -186,17 +182,17 @@ hash = { name: 'kedir', last: 'Abdu' }
 # p [nil, false, true].my_none?                           #=> false
 
 # 4. my_any? (example test cases)
-# puts 'my_any?'
-# p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
-# p %w[ant bear cat].any?(/d/)                        #=> false
-# p [nil, true, 99].any?(Integer)                     #=> true
-# p [nil, true, 99].any?                              #=> true
-# p [].any?                                           #=> false
+puts 'my_any?'
+p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
+p %w[ant bear cat].any?(/d/)                        #=> false
+p [nil, true, 99].any?(Integer)                     #=> true
+p [nil, true, 99].any?                              #=> true
+p [].any?                                           #=> false
 
-p (5..10).my_inject { |sum, n| sum + n }
-p (5..10).my_inject(1) { |product, n| product * n }
-longest = %w{ cat sheep bear }.my_inject do |memo, word|
-  memo.length > word.length ? memo : word
-end
-p longest 
+# p (5..10).my_inject { |sum, n| sum + n }
+# p (5..10).my_inject(1) { |product, n| product * n }
+# longest = %w{ cat sheep bear }.my_inject do |memo, word|
+#   memo.length > word.length ? memo : word
+# end
+# p longest 
