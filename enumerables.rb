@@ -47,14 +47,13 @@ module Enumerable
                           end
     else
       if args[0].is_a?(Integer)
-        my_each { |x| is_true = false unless args[0] == x }
+          my_each { |x| is_true = false unless args[0] == x }
       elsif args[0].nil?
-            my_each { |x| is_true = false if x == false || x.nil? }
+          my_each { |x| is_true = false if x == false || x.nil? }
       elsif args[0].is_a?(Regexp)
-            my_each { |x| is_true = false if x.match(args[0]).nil? }
-      elsif args[0].is_a?(Object)
-            length.times { |x| is_true = false unless self[x].is_a?args[0]
-          }
+          my_each { |x| is_true = false if x.match(args[0]).nil? }
+      else
+          my_each{ |x| is_true = false unless x.is_a?args[0]}
       end
     end
     is_true
@@ -75,10 +74,14 @@ module Enumerable
   def my_none?(obj = nil)
     none = true
     if block_given?
-      length.times {|i|  none = false if yield(self[i])}
+      my_each {|i|  none = false if yield(i)}
     else 
-       if obj.nil? || obj.is_a?(Regexp) || obj.is_a?(Object)
-         length.times {|i| none = false  if self[i] || self[i] =~ obj || self[i].is_a?(obj)}
+       if obj.nil?
+         my_each {|i| none = false  if i }
+       elsif obj.is_a?(Regexp)
+         my_each {|i| none = false if i =~ obj}
+       else
+         my_each {|i| none = false if i.is_a?(obj)}
        end
     end 
     none
@@ -89,8 +92,12 @@ module Enumerable
     if block_given?
       my_each {|x| any = true if yield(x)}
     else 
-      if args[0].nil? || args[0].is_a?(Regexp) || args[0].is_a?(Object)
-        my_each {|x| any = true  if x || x =~ obj || x.is_a?(obj)}
+      if args[0].nil?
+        my_each {|x| any = true  if x }
+      elsif args[0].is_a?(Regexp)
+        my_each {|x| any = true  if x =~ args[0] }
+      else 
+        my_each {|x| any = true  if x.is_a?(args[0])}
       end
     end
     any
@@ -166,25 +173,25 @@ hash = { name: 'kedir', last: 'Abdu' }
 # p [2, 3, 8].my_all?(&:odd?)
 
 # 4. my_none? (example test cases)
-# puts 'my_none?'
-# p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
-# p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
-# p [1,2,3,4,5].my_none? {|n| n <= 5}
-# p %w{ant bear cat}.my_none?(/d/)                        #=> true
-# p [1, 3.4, 42].my_none?(Float)                         #=> false
-# p [].my_none?                                           #=> true
-# p [nil].my_none?                                        #=> true
-# p [nil, false].my_none?                                 #=> true
-# p [nil, false, true].my_none?                           #=> false
+puts 'my_none?'
+p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
+p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
+p [1,2,3,4,5].my_none? {|n| n <= 5}                   # false
+p %w{ant bear cat}.my_none?(/d/)                        #=> true
+p [1, 3.4, 42].my_none?(Float)                         #=> false
+p [].my_none?                                           #=> true
+p [nil].my_none?                                        #=> true
+p [nil, false].my_none?                                 #=> true
+p [nil, false, true].my_none?                           #=> false
 
 # 4. my_any? (example test cases)
-puts 'my_any?'
-p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
-p %w[ant bear cat].any?(/d/)                        #=> false
-p [nil, true, 99].any?(Integer)                     #=> true
-p [nil, true, 99].any?                              #=> true
-p [].any?                                           #=> false
+# puts 'my_any?'
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].my_any?(/d/)                        #=> false
+# p [nil, true, 99].my_any?(Integer)                     #=> true
+# p [nil, true, 99].my_any?                              #=> true
+# p [].my_any?                                           #=> false
 
 # p (5..10).my_inject { |sum, n| sum + n }
 # p (5..10).my_inject(1) { |product, n| product * n }
