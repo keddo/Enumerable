@@ -103,6 +103,12 @@ module Enumerable
     end
     any
   end
+
+  def my_inject(i = 0)
+    self.my_each {|j| i = yield(i,j) }
+    i
+  end
+
 end
 
 hash = { name: 'kedir', last: 'Abdu' }
@@ -165,10 +171,17 @@ hash = { name: 'kedir', last: 'Abdu' }
 # p [nil, false, true].my_none?                           #=> false
 
 # 4. my_any? (example test cases)
-puts 'my_any?'
-p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
-p %w[ant bear cat].any?(/d/)                        #=> false
-p [nil, true, 99].any?(Integer)                     #=> true
-p [nil, true, 99].any?                              #=> true
-p [].any?                                           #=> false
+# puts 'my_any?'
+# p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].any?(/d/)                        #=> false
+# p [nil, true, 99].any?(Integer)                     #=> true
+# p [nil, true, 99].any?                              #=> true
+# p [].any?                                           #=> false
+
+p (5..10).my_inject { |sum, n| sum + n }
+p (5..10).my_inject(1) { |product, n| product * n }
+longest = %w{ cat sheep bear }.inject do |memo, word|
+  memo.length > word.length ? memo : word
+end
+p longest 
