@@ -105,7 +105,10 @@ module Enumerable
   end
 
   def my_inject(i = 0)
-    self.my_each {|j| i = yield(i,j) }
+    i = to_a[0].is_a?(String) ? to_a[0] : i
+    my_each do |j| 
+      i = yield(i,j) 
+    end
     i
   end
 
@@ -181,7 +184,7 @@ hash = { name: 'kedir', last: 'Abdu' }
 
 p (5..10).my_inject { |sum, n| sum + n }
 p (5..10).my_inject(1) { |product, n| product * n }
-longest = %w{ cat sheep bear }.inject do |memo, word|
+longest = %w{ cat sheep bear }.my_inject do |memo, word|
   memo.length > word.length ? memo : word
 end
 p longest 
