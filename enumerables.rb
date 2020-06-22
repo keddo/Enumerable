@@ -72,26 +72,20 @@ module Enumerable
     sum
   end
 
-      # def my_count 
-  #   sum = 0
-  #   if block_given?
-  #     self.my_select{|i| yield(i)}.size
-  #   elsif sum != 0
-  #     self.my_select{|i| i == sum}.size
-  #   else
-  #     self.length
-  #   end
-  # end
-
-  def my_none?(i = nil)
-
-    return false if i != nil && i != false unless block_given?
-    for i in self
-      if block_given?
-        return false if yield(i)
-      end
-    end
-    true
+  def my_none?(obj = nil)
+    none = true
+    if block_given?
+      length.times {|i|  none = false if yield(self[i])}
+    else 
+       if obj.nil?
+         length.times {|i| none = false  if self[i]}
+       elsif obj.is_a?(Regexp)
+        length.times {|i| none = false if self[i] =~ obj}
+       elsif obj.is_a?(Object)
+         length.times {|i| none = false if self[i].is_a?(obj)}
+       end
+    end 
+    none
   end
 end
 
@@ -141,12 +135,12 @@ hash = { name: 'kedir', last: 'Abdu' }
 # even = proc { |x| x.even? }
 # p [2, 4, 8].my_all?(&even)
 # p [2, 3, 8].my_all?(&:odd?)
-# p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
-# p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
-# p [1,2,3,4,5].my_none? {|n| n <= 5}
-# p %w{ant bear cat}.my_none?(/d/)                        #=> true
-p [1, 3, 42].my_none?(Float)                         #=> false
-# p [].my_none?                                           #=> true
-# p [nil].my_none?                                        #=> true
-# p [nil, false].my_none?                                 #=> true
-# p [nil, false, true].my_none?  
+p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
+p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
+p [1,2,3,4,5].my_none? {|n| n <= 5}
+p %w{ant bear cat}.my_none?(/d/)                        #=> true
+p [1, 3.4, 42].my_none?(Float)                         #=> false
+p [].my_none?                                           #=> true
+p [nil].my_none?                                        #=> true
+p [nil, false].my_none?                                 #=> true
+p [nil, false, true].my_none?                           #=> false
