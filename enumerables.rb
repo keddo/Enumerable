@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module Enumerable
   def my_each
     return enum_for unless block_given?
@@ -30,6 +29,7 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
+
     my_arr = []
     each do |i|
       my_arr << i if yield(i)
@@ -49,12 +49,13 @@ module Enumerable
       if args[0].is_a?(Integer)
         my_each { |x| is_true = false unless args[0] == x }
       elsif args[0].nil?
-            my_each { |x| is_true = false if x == false || x.nil? }
+        my_each { |x| is_true = false if x == false || x.nil? }
       elsif args[0].is_a?(Regexp)
-            my_each { |x| is_true = false if x.match(args[0]).nil? }
+        my_each { |x| is_true = false if x.match(args[0]).nil? }
       elsif args[0].is_a?(Object)
-            length.times { |x| is_true = false unless self[x].is_a?args[0]
-          }
+        length.times do |x|
+          is_true = false unless self[x].is_a? args[0]
+        end
       end
     end
     is_true
@@ -63,10 +64,10 @@ module Enumerable
   def my_count(num = 0)
     sum = 0
     length.times { |x| sum += 1 if self[x] == num } if num != 0
-    sum = max if !block_given? && num == 0
+    sum = max if !block_given? && num.zero?
     if block_given?
       my_each do |i|
-          sum += 1 if yield(i)
+        sum += 1 if yield(i)
       end
     end
     sum
@@ -75,22 +76,22 @@ module Enumerable
   def my_none?(obj = nil)
     none = true
     if block_given?
-      length.times {|i|  none = false if yield(self[i])}
-    else 
-       if obj.nil? || obj.is_a?(Regexp) || obj.is_a?(Object)
-         length.times {|i| none = false  if self[i] || self[i] =~ obj || self[i].is_a?(obj)}
-       end
-    end 
+      length.times { |i| none = false if yield(self[i]) }
+    else
+      if obj.nil? || obj.is_a?(Regexp) || obj.is_a?(Object)
+        length.times { |i| none = false if self[i] || self[i] =~ obj || self[i].is_a?(obj) }
+      end
+    end
     none
   end
 
   def my_any?(*args)
     any = false
     if block_given?
-      my_each {|x| any = true if yield(x)}
-    else 
+      my_each { |x| any = true if yield(x) }
+    else
       if args[0].nil? || args[0].is_a?(Regexp) || args[0].is_a?(Object)
-        my_each {|x| any = true  if x || x =~ obj || x.is_a?(obj)}
+        my_each { |x| any = true if x || x =~ obj || x.is_a?(obj) }
       end
     end
     any
@@ -98,27 +99,26 @@ module Enumerable
 
   # def my_inject(i = 0)
   #   i = to_a[0].is_a?(String) ? to_a[0] : i
-  #   my_each do |j| 
-  #     i = yield(i,j) 
+  #   my_each do |j|
+  #     i = yield(i,j)
   #   end
   #   i
   # end
 
   def my_inject(i = nil)
     memo = i.nil? ? to_a[0] : i
-    my_each {|j| memo = yield(memo, j)}
+    my_each { |j| memo = yield(memo, j) }
     memo
   end
-
 end
 
-def multiply_els(arr)
-  arr = [1, 2, 4, 6]
-  arr.my_inject { |mul, n| mul * n}
+def multiply_els(_arr)
+  # arr = [1, 2, 4, 6]
+  [1, 2, 4, 6].my_inject { |mul, n| mul * n }
 end
 # p multiply_els([2,4,5])
 
-hash = { name: 'kedir', last: 'Abdu' }
+# hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
 # hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
 # # arr.my_each
@@ -178,17 +178,17 @@ hash = { name: 'kedir', last: 'Abdu' }
 # p [nil, false, true].my_none?                           #=> false
 
 # 4. my_any? (example test cases)
-puts 'my_any?'
-p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
-p %w[ant bear cat].any?(/d/)                        #=> false
-p [nil, true, 99].any?(Integer)                     #=> true
-p [nil, true, 99].any?                              #=> true
-p [].any?                                           #=> false
+# puts 'my_any?'
+# p %w[ant bear cat].any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].any?(/d/) #=> false
+# p [nil, true, 99].any?(Integer) #=> true
+# p [nil, true, 99].any? #=> true
+# p [].any? #=> false
 
 # p (5..10).my_inject { |sum, n| sum + n }
 # p (5..10).my_inject(1) { |product, n| product * n }
 # longest = %w{ cat sheep bear }.my_inject do |memo, word|
 #   memo.length > word.length ? memo : word
 # end
-# p longest 
+# p longest
