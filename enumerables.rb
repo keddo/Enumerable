@@ -34,6 +34,24 @@ module Enumerable
     my_arr
   end
 
+  def my_all?(*args)
+     is_true = true
+     if block_given?
+        is_a?(Hash) ? to.a.my_each {|k, v| is_true = false unless yield(k, v) } : my_each {|x| is_true = false unless yield(x)}
+     else
+       if args[0].is_a?(Integer)
+          my_each {|x| is_true = false unless args[0] == x}
+       elsif args[0].is_a?(Class)
+          my_each {|x| is_true = false unless x.is_a?args[0]}
+       elsif args[0].nil?
+          my_each {|x| is_true = false if x == false || x.nil?}
+       elsif args[0].is_a?(Regexp)
+        my_each {|x| is_true = false if x.match(args[0]).nil?}
+       end
+     end
+     is_true
+  end
+
   def my_count(num=0)
     sum = 0
     length.times {|x| sum += 1 if self[x] == num } if num != 0
@@ -73,7 +91,22 @@ hash = { name: "kedir", last: "Abdu"}
 # end
 
 # my_count test cases
-arr = [1,3,4,5,6,7,8, 5, 5]
-p arr.my_count {|x| x >= 5} # when block is given
-p arr.my_count(1) # count the number of occurances of a number
-p arr.my_count # return the max number when no block and arg
+# arr = [1,3,4,5,6,7,8, 5, 5]
+# p arr.my_count {|x| x >= 5} # when block is given
+# p arr.my_count(1) # count the number of occurances of a number
+# p arr.my_count # return the max number when no block and arg
+
+# 4. my_all? (example test cases)
+puts 'my_all?'
+puts '-------'
+p [1, 2, 3, 4, 5].my_all? # => true
+p [1, 2, 3].my_all?(Integer) # => true
+p %w[dog door rod blade].my_all?(/d/) # => true
+p [1, 1, 1].my_all?(1) # => true
+p [-8, -9, -6].my_all? { |n| n < 0 } # => true
+p [-8, -9, -6, 0].my_all? { |n| n < 0 } # => false
+p(("a".."z").my_all? {|i| i.is_a? String} )
+p [2, 4, 8].my_all?(&:even?)
+even = Proc.new {|x| x % 2 == 0}
+p [2, 4, 8].my_all?(&even)
+p [2, 3, 8].my_all?(&:odd?)
