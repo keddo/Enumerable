@@ -104,15 +104,27 @@ module Enumerable
     any
   end
 
-  def my_inject(i = 0)
-    i = to_a[0].is_a?(String) ? to_a[0] : i
-    my_each do |j| 
-      i = yield(i,j) 
-    end
-    i
+  # def my_inject(i = 0)
+  #   i = to_a[0].is_a?(String) ? to_a[0] : i
+  #   my_each do |j| 
+  #     i = yield(i,j) 
+  #   end
+  #   i
+  # end
+
+  def my_inject(i = nil)
+    memo = i.nil? ? to_a[0] : i
+    my_each {|j| memo = yield(memo, j)}
+    memo
   end
 
 end
+
+def multiply_els(arr)
+  arr = [1, 2, 4, 6]
+  arr.my_inject { |mul, n| mul * n}
+end
+p multiply_els([2,4,5])
 
 hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
