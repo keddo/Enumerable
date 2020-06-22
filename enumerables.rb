@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module Enumerable
   def my_each
     return enum_for unless block_given?
@@ -30,6 +29,7 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
+
     my_arr = []
     each do |i|
       my_arr << i if yield(i)
@@ -62,10 +62,10 @@ module Enumerable
   def my_count(num = 0)
     sum = 0
     length.times { |x| sum += 1 if self[x] == num } if num != 0
-    sum = max if !block_given? && num == 0
+    sum = max if !block_given? && num.zero?
     if block_given?
       my_each do |i|
-          sum += 1 if yield(i)
+        sum += 1 if yield(i)
       end
     end
     sum
@@ -105,27 +105,26 @@ module Enumerable
 
   # def my_inject(i = 0)
   #   i = to_a[0].is_a?(String) ? to_a[0] : i
-  #   my_each do |j| 
-  #     i = yield(i,j) 
+  #   my_each do |j|
+  #     i = yield(i,j)
   #   end
   #   i
   # end
 
   def my_inject(i = nil)
     memo = i.nil? ? to_a[0] : i
-    my_each {|j| memo = yield(memo, j)}
+    my_each { |j| memo = yield(memo, j) }
     memo
   end
-
 end
 
-def multiply_els(arr)
-  arr = [1, 2, 4, 6]
-  arr.my_inject { |mul, n| mul * n}
+def multiply_els(_arr)
+  # arr = [1, 2, 4, 6]
+  [1, 2, 4, 6].my_inject { |mul, n| mul * n }
 end
 # p multiply_els([2,4,5])
 
-hash = { name: 'kedir', last: 'Abdu' }
+# hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
 # hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
 # # arr.my_each
@@ -198,4 +197,4 @@ hash = { name: 'kedir', last: 'Abdu' }
 # longest = %w{ cat sheep bear }.my_inject do |memo, word|
 #   memo.length > word.length ? memo : word
 # end
-# p longest 
+# p longest
