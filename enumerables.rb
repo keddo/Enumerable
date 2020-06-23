@@ -1,9 +1,8 @@
 module Enumerable
   def my_each
     return enum_for unless block_given?
-
-    arr = to_a
-    arr.length.times { |i| arr[i].is_a?(Array) ? yield(arr[i][0], arr[i][1]) : yield(arr[i]) }
+    arr = is_a?(Array)? self : to_a
+    is_a?(Hash) ? arr.length.times {|i| yield(arr[i][0], arr[i][1])} : arr.length.times {|i| yield(arr[i])}
     self
   end
 
@@ -11,7 +10,7 @@ module Enumerable
     return to_enum unless block_given?
 
     arr = to_a
-    (0...arr.length).each do |i|
+    (0...arr.length).my_each do |i|
       yield(arr[i], i)
     end
     self
@@ -21,8 +20,11 @@ module Enumerable
     return to_enum unless block_given?
 
     my_arr = []
-    each do |i|
-      my_arr << yield(i) if block_given?
+    hash = {}
+    if block_given?
+        is_a?(Hash) ? my_each {|k, v| hash[k]  = yield(k, v)} :  my_each {|x| my_arr << yield(x) }
+    else
+        
     end
     my_arr
   end
@@ -31,7 +33,7 @@ module Enumerable
     return to_enum unless block_given?
 
     my_arr = []
-    each do |i|
+    my_each do |i|
       my_arr << i if yield(i)
     end
     my_arr
@@ -53,7 +55,7 @@ module Enumerable
       elsif args[0].is_a?(Regexp)
         my_each { |x| is_true = false if x.match(args[0]).nil? }
       else
-        my_each { |x| is_true = false unless x.is_a? args[0] }
+        my_each { |x| is_true = false unless x.is_a?(args[0]) }
       end
     end
     is_true
@@ -118,9 +120,9 @@ module Enumerable
   end
 end
 
-def multiply_els(_arr)
+def multiply_els(arr)
   # arr = [1, 2, 4, 6]
-  [1, 2, 4, 6].my_inject { |mul, n| mul * n }
+  arr.my_inject { |mul, n| mul * n }
 end
 # p multiply_els([2,4,5])
 
