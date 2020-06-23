@@ -100,7 +100,8 @@ module Enumerable
     any = false
     if block_given?
       my_each { |x| any = true if yield(x) }
-
+    elsif args[0].is_a?(Integer)
+      my_each { |x| any = true if x == args[0] }
     elsif args[0].nil?
       my_each { |x| any = true if x }
     elsif args[0].is_a?(Regexp)
@@ -201,13 +202,13 @@ end
 # p [2, 3, 8].my_all?(&:odd?)
 
 # 5. my_any? (example test cases)
-puts 'my_any?'
-puts '-------'
-p [7, 10, 3, 5].my_any?(&:even?) # => true
-p %w[q r s i].my_any? { |char| 'aeiou'.include?(char) } # => true
-p [7, 11, 3, 5].my_any?(&:even?) # => false
-# test cases required by tse reviewer
-p [3, 5, 4, 11].my_any? # => true
+# puts 'my_any?'
+# puts '-------'
+# p [7, 10, 3, 5].my_any?(&:even?) # => true
+# p %w[q r s i].my_any? { |char| 'aeiou'.include?(char) } # => true
+# p [7, 11, 3, 5].my_any?(&:even?) # => false
+# # test cases required by tse reviewer
+# p [3, 5, 4, 11].my_any? # => true
 # p [1, nil, false].my_any?(1) # => true
 # p [1, nil, false].my_any?(Integer) # => true
 # p %w[dog door rod blade].my_any?(/z/) # => false
