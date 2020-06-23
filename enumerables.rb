@@ -32,8 +32,8 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
-  
-    if is_a?(Array) 
+
+    if is_a?(Array)
       my_arr = []
       my_each do |i|
         my_arr << i if yield(i)
@@ -41,7 +41,7 @@ module Enumerable
       my_arr
     elsif is_a?(Hash)
       my_hash = {}
-      my_each do |i,j|
+      my_each do |i, j|
         my_hash.store(i, j)
       end
     end
@@ -132,8 +132,8 @@ def multiply_els(arr)
 end
 # p multiply_els([2,4,5])
 
-hash = { name: 'kedir', last: 'Abdu' }
-arr = [1, 2, 4, 6]
+# hash = { name: 'kedir', last: 'Abdu' }
+# arr = [1, 2, 4, 6]
 # 1. my_each (example test cases)
 # puts 'my_each'
 # puts '-------'
@@ -149,7 +149,6 @@ arr = [1, 2, 4, 6]
 # my_hash = Hash.new
 # %w(cat dog wombat).my_each_with_index {|item, index| my_hash[item] = index}
 # p my_hash
-
 
 # arr.my_map do |i|
 #   puts i * 3
