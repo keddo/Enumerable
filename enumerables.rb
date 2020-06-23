@@ -49,7 +49,7 @@ module Enumerable
     is_true = true
     if block_given?
       if is_a?(Hash)
-        to_a.my_each do |k, v|
+        my_each do |k, v|
           is_true = false unless yield(k, v)
         end
       else my_each { |x| is_true = false unless yield(x) }
@@ -110,24 +110,14 @@ module Enumerable
     any
   end
 
-  # def my_inject(i = 0)
-  #   i = to_a[0].is_a?(String) ? to_a[0] : i
-  #   my_each do |j|
-  #     i = yield(i,j)
-  #   end
-  #   i
-  # end
-
   def my_inject(*args)
     memo = args[0].nil? ? 0 : args[0]
     memo = '' if to_a[0].is_a?(String)
     if args.length > 1
-      my_each { |j| memo = yield(memo, j) }
+      my_each { |j| memo = memo.send(args[1], j) }
     elsif args[0].is_a?(String)
-      if memo == '+'
         memo = 0 if memo.is_a?String
-        my_each {|j| memo += j}
-      end
+        my_each {|j| memo = memo.send(args[0].to_sym, j)}
     else
       my_each { |j| memo = yield(memo, j) }
     end
@@ -136,7 +126,6 @@ module Enumerable
 end
 
 def multiply_els(arr)
-  # arr = [1, 2, 4, 6]
   arr.my_inject(1) { |mul, n| mul * n }
 end
 p multiply_els([2,4,5])
@@ -259,7 +248,7 @@ p multiply_els([2,4,5])
 # p [1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem } # => 20
 # p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
 # p [5, 1, 2].my_inject('+') # => 8
-# # p (5..10).my_inject(2, :*) # should return 302400
+# p (5..10).my_inject(2, :*) # should return 302400
 # p (5..10).my_inject(4) { |prod, n| prod * n } # 
 # p (5..10).my_inject { |sum, n| sum + n }
 # p (5..10).my_inject(1) { |product, n| product * n }
