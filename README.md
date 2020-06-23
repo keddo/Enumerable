@@ -2,40 +2,31 @@
 
 > The objective the project is to rebuild Ruby enumerable methods.
 
-<!-- ![screenshot](./app_screenshot.png) -->
-
 Additional description about the project and its features.
 
 ## Built With
 
 - Ruby
 
-## Live Demo
+## How To Use 🔧
 
-[Live Demo Link](https://livedemo.com)
+From your command line, first clone the project:
 
+```bash
+# Clone this repository
+$ git clone https://github.com/keddo/Enumerable
 
-## Getting Started
+# Go into the repository
+$ cd Enumerable
 
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
+# Open the project on Vscode
+$ code .
 
+# run the script on your terminal
+$ ruby enumerables.rb
 
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-### Setup
-
-### Install
-
-### Usage
-
-### Run tests
-
-### Deployment
-
-
+# test the methods from the commented testcases
+```
 
 ## Authors
 
@@ -55,18 +46,10 @@ To get a local copy up and running follow these simple example steps.
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](issues/).
-
 ## Show your support
 
 Give a ⭐️ if you like this project!
 
-## Acknowledgments
+```
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
-
-## 📝 License
-
-This project is [MIT](lic.url) licensed.
+```
