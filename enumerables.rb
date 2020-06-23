@@ -32,11 +32,19 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
-    my_arr = []
-    my_each do |i|
-      my_arr << i if yield(i)
+  
+    if is_a?(Array) 
+      my_arr = []
+      my_each do |i|
+        my_arr << i if yield(i)
+      end
+      my_arr
+    elsif is_a?(Hash)
+      my_hash = {}
+      my_each do |i,j|
+        my_hash.store(i, j)
+      end
     end
-    my_arr
   end
 
   def my_all?(*args)
@@ -142,16 +150,23 @@ arr = [1, 2, 4, 6]
 # %w(cat dog wombat).my_each_with_index {|item, index| my_hash[item] = index}
 # p my_hash
 
-# 3. my_select (example test cases)
-puts 'my_select'
-puts '-------'
-friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
-p friends.my_select { |friend| friend != "Brian" }
 
 # arr.my_map do |i|
 #   puts i * 3
 # end
+# hash = { bacon: "protein", apple: "fruit" }
 
+# p hash.my_map { |k,v| [k, v.to_sym] }.to_h
+# {:bacon=>:protein, :apple=>:fruit}
+
+# 3. my_select (example test cases)
+# puts 'my_select'
+# puts '-------'
+# friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
+# p friends.my_select { |friend| friend != "Brian" }
+# h = { "a" => 100, "b" => 200, "c" => 300 }
+# p h.my_select {|k,v| k > "a"}  #=> {"b" => 200, "c" => 300}
+# p h.my_select {|k,v| v < 200}  #=> {"a" => 100}
 # arr.my_select do |i|
 #   if i % 2 == 0
 #     puts i
