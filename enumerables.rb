@@ -32,7 +32,6 @@ module Enumerable
 
   def my_select
     return to_enum unless block_given?
-
     my_arr = []
     my_each do |i|
       my_arr << i if yield(i)
@@ -121,24 +120,33 @@ end
 
 def multiply_els(arr)
   # arr = [1, 2, 4, 6]
-  arr.my_inject { |mul, n| mul * n }
+  arr.my_inject(1) { |mul, n| mul * n }
 end
 # p multiply_els([2,4,5])
 
-# hash = { name: 'kedir', last: 'Abdu' }
-# arr = [1, 2, 4, 6]
+hash = { name: 'kedir', last: 'Abdu' }
+arr = [1, 2, 4, 6]
+# 1. my_each (example test cases)
+# puts 'my_each'
+# puts '-------'
 # hash.my_each { |k, v| puts "key: #{k} v value: #{v}" }
-# # arr.my_each
+# arr.my_each
 # arr.my_each { |x| puts x }
+# [[2,3], [5,7], [8,10]].my_each {|el| p el}
 # (1..5).my_each { |y| puts y }
+
+# 2. my_each_with_index (example test cases)
+# puts 'my_each_width_index'
+# puts '-------'
 # my_hash = Hash.new
-
 # %w(cat dog wombat).my_each_with_index {|item, index| my_hash[item] = index}
-
 # p my_hash
 
-# friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
-# friends.my_select { |friend| friend != "Brian" }
+# 3. my_select (example test cases)
+puts 'my_select'
+puts '-------'
+friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
+p friends.my_select { |friend| friend != "Brian" }
 
 # arr.my_map do |i|
 #   puts i * 3
