@@ -1,8 +1,9 @@
 module Enumerable
   def my_each
     return enum_for unless block_given?
-    arr = is_a?(Array)? self : to_a
-    is_a?(Hash) ? arr.length.times {|i| yield(arr[i][0], arr[i][1])} : arr.length.times {|i| yield(arr[i])}
+
+    arr = is_a?(Array) ? self : to_a
+    is_a?(Hash) ? arr.length.times { |i| yield(arr[i][0], arr[i][1]) } : arr.length.times { |i| yield(arr[i]) }
     self
   end
 
@@ -18,18 +19,20 @@ module Enumerable
 
   def my_map(&proc)
     return to_enum unless block_given?
+
     my_arr = []
     hash = {}
     if block_given?
-        is_a?(Hash) ? my_each {|k, v| hash[k]  = yield(k, v)} :  my_each {|x| my_arr << yield(x) }
+      is_a?(Hash) ? my_each { |k, v| hash[k] = yield(k, v) } : my_each { |x| my_arr << yield(x) }
     else
-        my_each {|x| proc.call(x)}
+      my_each { |x| proc.call(x) }
     end
-    is_a?(Hash)? hash : my_arr
+    is_a?(Hash) ? hash : my_arr
   end
 
   def my_select
     return to_enum unless block_given?
+
     my_arr = []
     my_each do |i|
       my_arr << i if yield(i)
@@ -111,8 +114,8 @@ module Enumerable
   #   i
   # end
 
-  def my_inject(i = nil)
-    memo = i.nil? ? to_a[0] : i
+  def my_inject(xyz = nil)
+    memo = xyz.nil? ? to_a[0] : xyz
     my_each { |j| memo = yield(memo, j) }
     memo
   end
