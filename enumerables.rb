@@ -124,8 +124,8 @@ def multiply_els(arr)
 end
 # p multiply_els([2,4,5])
 
-hash = { name: 'kedir', last: 'Abdu' }
-arr = [1, 2, 4, 6]
+# hash = { name: 'kedir', last: 'Abdu' }
+# arr = [1, 2, 4, 6]
 # 1. my_each (example test cases)
 # puts 'my_each'
 # puts '-------'
@@ -143,10 +143,10 @@ arr = [1, 2, 4, 6]
 # p my_hash
 
 # 3. my_select (example test cases)
-puts 'my_select'
-puts '-------'
-friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
-p friends.my_select { |friend| friend != "Brian" }
+# puts 'my_select'
+# puts '-------'
+# friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
+# p friends.my_select { |friend| friend != "Brian" }
 
 # arr.my_map do |i|
 #   puts i * 3
@@ -179,6 +179,21 @@ p friends.my_select { |friend| friend != "Brian" }
 # even = proc { |x| x.even? }
 # p [2, 4, 8].my_all?(&even)
 # p [2, 3, 8].my_all?(&:odd?)
+
+# 5. my_any? (example test cases)
+puts 'my_any?'
+puts '-------'
+p [7, 10, 3, 5].my_any?(&:even?) # => true
+p %w[q r s i].my_any? { |char| 'aeiou'.include?(char) } # => true
+p [7, 11, 3, 5].my_any?(&:even?) # => false
+# test cases required by tse reviewer
+p [3, 5, 4, 11].my_any? # => true
+# p [1, nil, false].my_any?(1) # => true
+# p [1, nil, false].my_any?(Integer) # => true
+# p %w[dog door rod blade].my_any?(/z/) # => false
+# p [1, 2, 3].my_any?(1) # => true
+
+
 
 # 4. my_none? (example test cases)
 # puts 'my_none?'
