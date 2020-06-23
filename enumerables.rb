@@ -16,22 +16,20 @@ module Enumerable
     self
   end
 
-  def my_map
+  def my_map(&proc)
     return to_enum unless block_given?
-
     my_arr = []
     hash = {}
     if block_given?
         is_a?(Hash) ? my_each {|k, v| hash[k]  = yield(k, v)} :  my_each {|x| my_arr << yield(x) }
     else
-        
+        my_each {|x| proc.call(x)}
     end
-    my_arr
+    is_a?(Hash)? hash : my_arr
   end
 
   def my_select
     return to_enum unless block_given?
-
     my_arr = []
     my_each do |i|
       my_arr << i if yield(i)
