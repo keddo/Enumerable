@@ -43,21 +43,20 @@ module Enumerable
   def my_all?(*args)
     is_true = true
     if block_given?
-      is_a?(Hash) ? to.a.my_each do |k, v|
-                      is_true = false unless yield(k, v)
-                    end : my_each do |x|
-                            is_true = false unless yield(x)
-                          end
-    else
-      if args[0].is_a?(Integer)
-        my_each { |x| is_true = false unless args[0] == x }
-      elsif args[0].nil?
-        my_each { |x| is_true = false if x == false || x.nil? }
-      elsif args[0].is_a?(Regexp)
-        my_each { |x| is_true = false if x.match(args[0]).nil? }
-      else
-        my_each { |x| is_true = false unless x.is_a?(args[0]) }
+      if is_a?(Hash)
+        to_a.my_each do |k, v|
+          is_true = false unless yield(k, v)
+        end
+      else my_each { |x| is_true = false unless yield(x) }
       end
+    elsif args[0].is_a?(Integer)
+      my_each { |x| is_true = false unless args[0] == x }
+    elsif args[0].nil?
+      my_each { |x| is_true = false if x == false || x.nil? }
+    elsif args[0].is_a?(Regexp)
+      my_each { |x| is_true = false if x.match(args[0]).nil? }
+    else
+      my_each { |x| is_true = false unless x.is_a?(args[0]) }
     end
     is_true
   end
@@ -78,15 +77,15 @@ module Enumerable
     none = true
     if block_given?
       my_each { |i| none = false if yield(i) }
+
+    elsif obj.nil?
+      my_each { |i| none = false if i }
+    elsif obj.is_a?(Regexp)
+      my_each { |i| none = false if i =~ obj }
     else
-      if obj.nil?
-        my_each { |i| none = false if i }
-      elsif obj.is_a?(Regexp)
-        my_each { |i| none = false if i =~ obj }
-      else
-        my_each { |i| none = false if i.is_a?(obj) }
-      end
+      my_each { |i| none = false if i.is_a?(obj) }
     end
+
     none
   end
 
@@ -94,14 +93,13 @@ module Enumerable
     any = false
     if block_given?
       my_each { |x| any = true if yield(x) }
+
+    elsif args[0].nil?
+      my_each { |x| any = true if x }
+    elsif args[0].is_a?(Regexp)
+      my_each { |x| any = true if x =~ args[0] }
     else
-      if args[0].nil?
-        my_each { |x| any = true if x }
-      elsif args[0].is_a?(Regexp)
-        my_each { |x| any = true if x =~ args[0] }
-      else
-        my_each { |x| any = true if x.is_a?(args[0]) }
-      end
+      my_each { |x| any = true if x.is_a?(args[0]) }
     end
     any
   end
