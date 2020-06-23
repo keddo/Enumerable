@@ -18,8 +18,6 @@ module Enumerable
   end
 
   def my_map(&proc)
-    return to_enum unless block_given?
-
     my_arr = []
     hash = {}
     if block_given?
@@ -120,9 +118,19 @@ module Enumerable
   #   i
   # end
 
-  def my_inject(xyz = nil)
-    memo = xyz.nil? ? to_a[0] : xyz
-    my_each { |j| memo = yield(memo, j) }
+  def my_inject(*args)
+    memo = args[0].nil? ? 0 : args[0]
+    memo = '' if to_a[0].is_a?(String)
+    if args.length > 1
+      my_each { |j| memo = yield(memo, j) }
+    elsif args[0].is_a?(String)
+      if memo == '+'
+        memo = 0 if memo.is_a?String
+        my_each {|j| memo += j}
+      end
+    else
+      my_each { |j| memo = yield(memo, j) }
+    end
     memo
   end
 end
@@ -131,7 +139,7 @@ def multiply_els(arr)
   # arr = [1, 2, 4, 6]
   arr.my_inject(1) { |mul, n| mul * n }
 end
-# p multiply_els([2,4,5])
+p multiply_els([2,4,5])
 
 # hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
@@ -214,9 +222,7 @@ end
 # p %w[dog door rod blade].my_any?(/z/) # => false
 # p [1, 2, 3].my_any?(1) # => true
 
-
-
-# 4. my_none? (example test cases)
+# 6. my_none? (example test cases)
 # puts 'my_none?'
 # p %w{ant bear cat}.my_none? { |word| word.length < 0 } # true
 # p %w{ant bear cat}.my_none? { |word| word.length > 0 } # false
@@ -228,15 +234,33 @@ end
 # p [nil, false].my_none?                                 #=> true
 # p [nil, false, true].my_none?                           #=> false
 
-# 4. my_any? (example test cases)
-# puts 'my_any?'
-# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
-# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
-# p %w[ant bear cat].my_any?(/d/)                        #=> false
-# p [nil, true, 99].my_any?(Integer)                     #=> true
-# p [nil, true, 99].my_any?                              #=> true
-# p [].my_any?                                           #=> false
+# 7. my_count (example test cases)
+# puts 'my_count'
+# puts '--------'
+# p [1, 4, 3, 8].my_count(&:even?) # => 2
+# p %w[DANIEL JIA KRITI dave].my_count { |s| s == s.upcase } # => 3
+# p %w[daniel jia kriti dave].my_count { |s| s == s.upcase } # => 0
+# # test cases required by tse reviewer
+# p [1, 2, 3].my_count # => 3
+# p [1, 1, 1, 2, 3].my_count(1) # => 3
 
+# 8. my_map
+# puts 'my_map'
+# puts '------'
+# p [1, 2, 3].my_map { |n| 2 * n } # => [2,4,6]
+# p %w[Hey Jude].my_map { |word| word + '?' } # => ["Hey?", "Jude?"]
+# p [false, true].my_map(&:!) # => [true, false]
+# my_proc = proc { |num| num > 10 }
+# p [18, 22, 5, 6].my_map(&my_proc) # => true true false false
+
+# 9. my_inject
+# puts 'my_inject'
+# puts '---------'
+# p [1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem } # => 20
+# p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
+# p [5, 1, 2].my_inject('+') # => 8
+# # p (5..10).my_inject(2, :*) # should return 302400
+# p (5..10).my_inject(4) { |prod, n| prod * n } # 
 # p (5..10).my_inject { |sum, n| sum + n }
 # p (5..10).my_inject(1) { |product, n| product * n }
 # longest = %w{ cat sheep bear }.my_inject do |memo, word|
