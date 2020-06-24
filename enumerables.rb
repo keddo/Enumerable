@@ -71,7 +71,7 @@ module Enumerable
   def my_count(num = 0)
     sum = 0
     length.times { |x| sum += 1 if self[x] == num } if num != 0
-    sum = max if !block_given? && num.zero?
+    sum = length if !block_given? && num.zero?
     if block_given?
       my_each do |i|
         sum += 1 if yield(i)
