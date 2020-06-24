@@ -117,9 +117,10 @@ module Enumerable
     memo = '' if to_a[0].is_a?(String)
     if args.length > 1
       my_each { |j| memo = memo.send(args[1], j) }
-    elsif args[0].is_a?(String)
-        memo = 0 if memo.is_a?String
-        my_each {|j| memo = memo.send(args[0].to_sym, j)}
+    elsif args[0].is_a?(String) || args[0].is_a?(Symbol)
+        memo = 0 if memo != 0
+        arg = args[0].is_a?(String) ? args[0].to_sym : args[0]
+        my_each {|j| memo = memo.send(arg, j)}
     else
       my_each { |j| memo = yield(memo, j) }
     end
@@ -251,7 +252,8 @@ arr = [1, 2, 4, 6]
 # puts '---------'
 # p [1, 2, 3, 4].my_inject(10) { |accum, elem| accum + elem } # => 20
 # p [1, 2, 3, 4].my_inject { |accum, elem| accum + elem } # => 10
-# p [5, 1, 2].my_inject('+') # => 8
+p [5, 1, 2].my_inject('+') # => 8
+p [5, 1, 2].my_inject(:+) # => 8
 # p (5..10).my_inject(2, :*) # should return 302400
 # p (5..10).my_inject(4) { |prod, n| prod * n } # 
 # p (5..10).my_inject { |sum, n| sum + n }
