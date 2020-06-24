@@ -18,6 +18,7 @@ module Enumerable
   end
 
   def my_map(&proc)
+    return to_enum unless block_given?
     my_arr = []
     hash = {}
     if block_given?
@@ -164,20 +165,20 @@ arr = [1, 2, 4, 6]
 # {:bacon=>:protein, :apple=>:fruit}
 
 # 3. my_select (example test cases)
-puts 'my_select'
-puts '-------'
-friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
-p friends.my_select { |friend| friend != "Brian" }
-h = { "a" => 100, "b" => 200, "c" => 300 }
-p h.my_select {|k,v| k > "a"}  #=> {"b" => 200, "c" => 300}
-p h.my_select {|k,v| v < 200}  #=> {"a" => 100}
-arr.my_select do |i|
-  if i % 2 == 0
-    puts i
-  end
-end
+# puts 'my_select'
+# puts '-------'
+# friends = ["Sharon", "Leo", "Leila", "Brian", "Arun"]
+# p friends.my_select { |friend| friend != "Brian" }
+# h = { "a" => 100, "b" => 200, "c" => 300 }
+# p h.my_select {|k,v| k > "a"}  #=> {"b" => 200, "c" => 300}
+# p h.my_select {|k,v| v < 200}  #=> {"a" => 100}
+# arr.my_select do |i|
+#   if i % 2 == 0
+#     puts i
+#   end
+# end
 
-p (1..20).my_select {|i| i > 5}
+# p (1..20).my_select {|i| i > 5}
 
 # my_count test cases
 # arr = [1,3,4,5,6,7,8, 5, 5]
