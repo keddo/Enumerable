@@ -1,12 +1,25 @@
-# Enumerable Methods
+## Enumerable Methods
 
 > The objective the project is to rebuild Ruby enumerable methods.
 
-Additional description about the project and its features.
-
+#Enumerable methods included
+```bash
+- my_each
+- my_each_with_index
+- my_map
+- my_select
+- my_all?
+- my_count
+- my_none?
+- my_any?
+- my_inject
+```
 ## Built With
 
 - Ruby
+
+## Live demo
+> [Open live demo] (https://repl.it/@keddo/enumerables#main.rb)
 
 ## How To Use 🔧
 

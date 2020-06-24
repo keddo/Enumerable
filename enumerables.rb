@@ -132,7 +132,7 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |mul, n| mul * n }
 end
-p multiply_els([2, 4, 5])
+# p multiply_els([2, 4, 5])
 
 # hash = { name: 'kedir', last: 'Abdu' }
 # arr = [1, 2, 4, 6]
