@@ -24,4 +24,37 @@ describe 'Enumerable' do
       end
     end
   end
+ 
+  describe '#my_each_with_index' do
+    let(:arr){%w(cat dog wombat)} 
+    
+   it "should behave as each_with_index" do
+        hash_1 = Hash.new
+        hash_2 = Hash.new
+        arr.each_with_index { |item, index|
+          hash_1[item] = index
+        }
+        arr.my_each_with_index { |item, index|
+          hash_2[item] = index
+        }
+        expect(hash_1).to eql(hash_2)
+    end
+
+  end
+
+#  describe '#my_map' do
+   
+#   context 'If block is not given' do 
+#     expect(num_array.my_map.is_a?(Enumerable)).not_to be false
+#   end
+  
+#   context 'If a block is given' do 
+#     it do
+#     end
+#   end
+
+#  end
+
+
+
 end
