@@ -128,9 +128,34 @@ describe 'Enumerable' do
     end
   end
 
-
+  describe "#my_any?" do
+    context "If no block and no argument given  " do
+      it "returns all true if all element in the array are truthy" do
+        test_array = num_array.my_any?
+        custom_array = num_array.any?
+        expect(test_array).to eql(custom_array)
+      end
+    end
+    context "If no block given with an argument  " do
+      it "return true if all elements are of same class as the argument" do
+        test_array = num_array.my_any?(Integer)
+        custom_array = num_array.any?(Integer)
+        expect(test_array).to eql(custom_array)
+      end
+      it "returns true if the every element in the array has the letter a in it" do
+        test_array = word_array.my_any?(/a/)
+        custom_array = word_array.any?(/a/)
+        expect(test_array).to eql(custom_array)
+      end
+    end
+  
+    context "If block is given" do
+      it "Runs every element through the block returns true if all elemets are true " do
+        test_array = num_array.my_any? { |el| el > 1 }
+        custom_array = num_array.any?  { |el| el > 1 }
+        expect(test_array).to eql(custom_array)
+      end
+    end
+  end
  end
-
-
-
 end
