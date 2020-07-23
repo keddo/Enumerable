@@ -14,7 +14,7 @@ From your command line, first clone the project:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/keddo/Enumerable
+$ git clone https://github.com/paulzay/Enumerable
 
 # Go into the repository
 $ cd Enumerable
@@ -25,16 +25,20 @@ $ code .
 # run the script on your terminal
 $ ruby enumerables.rb
 
-# test the methods from the commented testcases
-```
+# install rspec on your local machine 
+$ gem install rspec
+
+# test the code using Rspec, run rspec from your comand line
+$ rspec
+
 
 ## Authors
 
 👤 **Vitalie**
 
-- Github: [@keddo](https://github.com/keddo)
-- Twitter: [@kedirman](https://twitter.com/kedirman)
-- Linkedin: [Kedir Abdurahman](https://linkedin.com/in/kedirabdurahman/)
+- Github: [@vitalie](https://github.com/vmwhoami)
+- Twitter: [@vmwhoami](https://twitter.com/vmwhoami)
+- Linkedin: [Vitalie Melnic](https://www.linkedin.com/in/vitalie-melnic-5802198a/)
 
 👤 **Paul Ogolla**
 
