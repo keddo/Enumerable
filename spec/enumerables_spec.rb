@@ -99,32 +99,63 @@ describe 'Enumerable' do
   end
  end
 
- describe "#my_all?" do
-  context "If no block and no argument given  " do
-    it "returns all true if all element in the array are truthy" do
-      test_array = num_array.my_all?
-      custom_array = num_array.all?
-      expect(test_array).to eql(custom_array)
+  describe "#my_all?" do
+    context "If no block and no argument given  " do
+      it "returns all true if all element in the array are truthy" do
+        test_array = num_array.my_all?
+        custom_array = num_array.all?
+        expect(test_array).to eql(custom_array)
+      end
     end
-  end
-  context "If no block given with an argument  " do
-    it "return true if all elements are of same class as the argument" do
-      test_array = num_array.my_all?(Integer)
-      custom_array = num_array.all?(Integer)
-      expect(test_array).to eql(custom_array)
+    context "If no block given with an argument  " do
+      it "return true if all elements are of same class as the argument" do
+        test_array = num_array.my_all?(Integer)
+        custom_array = num_array.all?(Integer)
+        expect(test_array).to eql(custom_array)
+      end
+      it "returns true if the every element in the array has the letter a in it" do
+        test_array = word_array.my_all?(/a/)
+        custom_array = word_array.all?(/a/)
+        expect(test_array).to eql(custom_array)
+      end
     end
-    it "returns true if the every element in the array has the letter a in it" do
-      test_array = word_array.my_all?(/a/)
-      custom_array = word_array.all?(/a/)
-      expect(test_array).to eql(custom_array)
-    end
-  end
 
-  context "If block is given" do
-    it "Runs every element through the block returns true if all elemets are true " do
-      test_array = num_array.my_all? { |el| el < 1 }
-      custom_array = num_array.all?  { |el| el < 1 }
-      expect(test_array).to eql(custom_array)
+    context "If block is given" do
+      it "Runs every element through the block returns true if all elemets are true " do
+        test_array = num_array.my_all? { |el| el < 1 }
+        custom_array = num_array.all?  { |el| el < 1 }
+        expect(test_array).to eql(custom_array)
+      end
+    end
+
+    describe "#my_any?" do
+      context "If no block and no argument given  " do
+        it "returns all true if all element in the array are truthy" do
+          test_array = num_array.my_any?
+          custom_array = num_array.any?
+          expect(test_array).to eql(custom_array)
+        end
+      end
+      context "If no block given with an argument  " do
+        it "return true if all elements are of same class as the argument" do
+          test_array = num_array.my_any?(Integer)
+          custom_array = num_array.any?(Integer)
+          expect(test_array).to eql(custom_array)
+        end
+        it "returns true if the every element in the array has the letter a in it" do
+          test_array = word_array.my_any?(/a/)
+          custom_array = word_array.any?(/a/)
+          expect(test_array).to eql(custom_array)
+        end
+      end
+    
+      context "If block is given" do
+        it "Runs every element through the block returns true if all elemets are true " do
+          test_array = num_array.my_any? { |el| el > 1 }
+          custom_array = num_array.any?  { |el| el > 1 }
+          expect(test_array).to eql(custom_array)
+        end
+      end
     end
   end
 
@@ -148,13 +179,42 @@ describe 'Enumerable' do
         expect(test_array).to eql(custom_array)
       end
     end
-  
+
     context "If block is given" do
       it "Runs every element through the block returns true if all elemets are true " do
         test_array = num_array.my_any? { |el| el > 1 }
         custom_array = num_array.any?  { |el| el > 1 }
         expect(test_array).to eql(custom_array)
       end
+    end
+  end 
+
+ describe "#my_none?" do
+  context "If no block and no argument given  " do
+    it "returns all true if all element in the array are truthy" do
+      test_array = num_array.my_none?
+      custom_array = num_array.none?
+      expect(test_array).to eql(custom_array)
+    end
+  end
+  context "If no block given with an argument  " do
+    it "return true if all elements are of same class as the argument" do
+      test_array = num_array.my_none?(Integer)
+      custom_array = num_array.none?(Integer)
+      expect(test_array).to eql(custom_array)
+    end
+    it "returns true if the every element in the array has the letter a in it" do
+      test_array = word_array.my_none?(/a/)
+      custom_array = word_array.none?(/a/)
+      expect(test_array).to eql(custom_array)
+    end
+  end
+
+  context "If block is given" do
+    it "Runs every element through the block returns true if all elemets are true " do
+      test_array = num_array.my_none? { |el| el < 1 }
+      custom_array = num_array.none?  { |el| el < 1 }
+      expect(test_array).to eql(custom_array)
     end
   end
  end
