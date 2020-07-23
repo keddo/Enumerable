@@ -30,7 +30,7 @@ $ ruby enumerables.rb
 
 ## Authors
 
-👤 **Kedir Abdurahman**
+👤 **Vitalie**
 
 - Github: [@keddo](https://github.com/keddo)
 - Twitter: [@kedirman](https://twitter.com/kedirman)
