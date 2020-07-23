@@ -249,6 +249,19 @@ describe 'Enumerable' do
 
 
  end
-
+ describe "#my_inject" do
+  context "if no block is given" do
+    it "Return cumulative" do
+      test_array = num_array.my_inject { |accum, elem| accum + elem } 
+      custom_array = num_array.inject { |accum, elem| accum + elem }
+      expect(test_array).to eql(custom_array)
+    end
+    it "sum the numbers in the array" do
+      test_array = num_array.my_inject('+')
+      custom_array = num_array.inject('+')
+      expect(test_array).to eql(custom_array)
+    end
+  end
+ end
 
 end
