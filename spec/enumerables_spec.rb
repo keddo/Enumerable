@@ -218,4 +218,37 @@ describe 'Enumerable' do
     end
   end
  end
+
+ describe "#my_count" do
+  context "if no block is given" do
+    it "Count all the elements in the given array" do
+      test_array = num_array.my_count 
+      custom_array = num_array.count
+      expect(test_array).to eql(custom_array)
+    end
+    it "counts the elements in the array that are equal to the argument" do
+      test_array = num_array.my_count(5)
+      custom_array = num_array.count(5)
+      expect(test_array).to eql(custom_array)
+    end
+    
+  end
+  context "if block is given" do
+    it "Count all the elements in the array that return true in the block" do
+      test_array = word_array.my_count{ |s| s == s.upcase }
+      custom_array = word_array.count{ |s| s == s.upcase }
+      expect(test_array).to eql(custom_array)
+    end
+    it "Count all the elements in the array that return true in the block" do
+      test_array = num_array.my_count(&:even?)
+      custom_array = num_array.count(&:even?)
+      expect(test_array).to eql(custom_array)
+    end
+  end
+
+
+
+ end
+
+
 end
