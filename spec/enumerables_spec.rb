@@ -78,4 +78,15 @@ describe 'Enumerable' do
     end
   end
  end
+
+ describe "#my_select" do
+  context "If block is given" do
+    it "drops all odd numbers" do
+      test_array = word_array.my_select { |friend| friend != "Brian" }
+      custom_array = word_array.select { |friend| friend != "Brian" }
+      expect(test_array).to eql(custom_array)
+    end
+
+  end
+ end
 end
