@@ -53,19 +53,29 @@ describe 'Enumerable' do
 
   end
 
-#  describe '#my_map' do
+ describe '#my_map' do
    
-#   context 'If block is not given' do 
-#     expect(num_array.my_map.is_a?(Enumerable)).not_to be false
-#   end
+  # context 'If block is not given' do 
+  #   expect(word_array.my_map.is_a?(Enumerable)).not_to be false
+  # end
   
-#   context 'If a block is given' do 
-#     it do
-#     end
-#   end
+  context 'If a block is given' do 
+    it "transforms to uppercase"do
+      custom_array = []
+      test_array = []
+      num_array.my_map { |i| custom_array << i ** 2 }
+      num_array.map { |i| test_array << i ** 2 }
+      expect(test_array).to eql(custom_array)
+    end
 
-#  end
+    it "it prints the contents of the hash" do
+      custom_hash = []
+      test_hash = []
 
-
-
+      name_hash.my_map { |k, v| custom_hash << [k.to_s, v.upcase]}
+      name_hash.map { |k, v| test_hash << [k.to_s, v.upcase]}
+      expect(test_hash).to eql(custom_hash)
+    end
+  end
+ end
 end
