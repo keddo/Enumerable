@@ -15,13 +15,17 @@ describe 'Enumerable' do
     end
 
     context 'If a block is given' do
-      it 'iterates squares each number in the array' do
+      it 'it squares each number in the array' do
         custom_array = []
         test_array = []
         num_array.my_each { |i| custom_array << i ** 2 }
         num_array.each { |i| test_array << i ** 2 }
         expect(test_array).to eql(custom_array)
       end
+
+      it "prints out the contents of the hash" do
+      end
+    
     end
   end
  
