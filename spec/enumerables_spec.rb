@@ -5,10 +5,11 @@ describe 'Enumerable' do
   let(:empty_array) { [] }
   let(:word_array) { %w[Sharon Lea Leila Brian Arun] }
   let(:name_hash) { { name: 'kedir', last: 'Abdu' } }
+
   describe '#my_each' do
     context 'If block is not given' do
       it 'returns an enumerator' do
-        expect(num_array.my_each.is_a?(Enumerable)).not_to be false
+        expect(num_array.my_each.is_a?(Enumerable)).to_not be false
       end
     end
 
@@ -46,12 +47,20 @@ describe 'Enumerable' do
       end
       expect(hash_b).to eql(hash_a)
     end
+
+    context 'If block is not given' do
+      it 'returns an enumerator' do
+        expect(num_array.my_each_with_index.is_a?(Enumerable)).to_not be false
+      end
+    end
   end
 
   describe '#my_map' do
-    # context 'If block is not given' do
-    #   expect(word_array.my_map.is_a?(Enumerable)).not_to be false
-    # end
+    context 'If block is not given' do
+      it 'returns an enumerator' do
+        expect(num_array.my_map.is_a?(Enumerable)).to_not be false
+      end
+    end
 
     context 'If a block is given' do
       it 'transforms to uppercase' do
@@ -77,7 +86,7 @@ describe 'Enumerable' do
     context 'If block is given' do
       it 'select all but brian' do
         test_array = word_array.my_select { |friend| friend != 'Brian' }
-        custom_array = word_array.reject { |friend| friend == 'Brian' }
+        custom_array = word_array.select { |friend| friend != 'Brian' }
         expect(test_array).to eql(custom_array)
       end
       it 'drops all odd numbers' do
@@ -89,6 +98,12 @@ describe 'Enumerable' do
         test_array = name_hash.my_select { |_k, v| v == 'Abdu' }
         custom_array = name_hash.select { |_k, v| v == 'Abdu' }
         expect(test_array).to eql(custom_array)
+      end
+    end
+
+    context 'If block is not given' do
+      it 'returns an enumerator' do
+        expect(word_array.my_select.is_a?(Enumerable)).not_to be false
       end
     end
   end
