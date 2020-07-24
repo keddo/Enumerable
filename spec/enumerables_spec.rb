@@ -105,10 +105,9 @@ describe 'Enumerable' do
         custom_array = num_array.select(&:even?)
         expect(test_array).to eql(custom_array)
       end
-      it 'selects abdu' do
+      it 'should not select others than the elemnts specified' do
         test_array = name_hash.my_select { |_k, v| v == 'Abdu' }
-        custom_array = name_hash.select { |_k, v| v == 'Abdu' }
-        expect(test_array).to eql(custom_array)
+        expect(test_array).to_not be_eql(name_hash)
       end
     end
 
