@@ -240,6 +240,15 @@ describe 'Enumerable' do
         custom_array = num_array.count(5)
         expect(test_array).to eql(custom_array)
       end
+
+      it 'expects the count to not be equal to five' do
+        expect(num_array.my_count).to_not be(5)
+      end
+
+      it 'expects the array size to be 9' do
+        expect(num_array.my_count).to eql(9)
+      end
+
     end
     context 'if block is given' do
       it 'Count all the elements in the array that return true in the block' do
