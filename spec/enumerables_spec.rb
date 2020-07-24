@@ -46,7 +46,12 @@ describe 'Enumerable' do
         hash_a[item] = index
       end
       expect(hash_b).to eql(hash_a)
-      expect(hash_b.values).to_not be hash_b.values.empty?
+    end
+    
+    it "it's indexes sould not differ from the original each_with_index" do
+      h = Hash.new(0)
+      arr.my_each_with_index{|item, index| h[item] = index }
+      expect(h["cat"]).to_not be 1
     end
 
     context 'If block is not given' do
