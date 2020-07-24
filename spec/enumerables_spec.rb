@@ -46,6 +46,7 @@ describe 'Enumerable' do
         hash_a[item] = index
       end
       expect(hash_b).to eql(hash_a)
+      expect(hash_b.values).to_not be hash_b.values.empty?
     end
 
     context 'If block is not given' do
@@ -63,12 +64,17 @@ describe 'Enumerable' do
     end
 
     context 'If a block is given' do
-      it 'transforms to uppercase' do
+      it 'rises to the powe of two' do
         custom_array = []
         test_array = []
         num_array.my_map { |i| custom_array << i**2 }
         num_array.map { |i| test_array << i**2 }
         expect(test_array).to eql(custom_array)
+      end
+
+      it 'should not be the same as the initial array' do
+        test_array = num_array.my_map { |i| i**2 }
+        expect(test_array).to_not be_eql(num_array)
       end
 
       it 'it prints the contents of the hash' do
@@ -86,7 +92,7 @@ describe 'Enumerable' do
     context 'If block is given' do
       it 'select all but brian' do
         test_array = word_array.my_select { |friend| friend != 'Brian' }
-        custom_array = word_array.select { |friend| friend != 'Brian' }
+        custom_array = word_array.reject { |friend| friend == 'Brian' }
         expect(test_array).to eql(custom_array)
       end
       it 'drops all odd numbers' do
@@ -155,6 +161,9 @@ describe 'Enumerable' do
           test_array = word_array.my_any?(/a/)
           custom_array = word_array.any?(/a/)
           expect(test_array).to eql(custom_array)
+        end
+        it 'should return false if none of the elements are present in the array' do
+          expect([1, 2, 3].my_any?(4)).to_not be true
         end
       end
 
@@ -248,7 +257,6 @@ describe 'Enumerable' do
       it 'expects the array size to be 9' do
         expect(num_array.my_count).to eql(9)
       end
-
     end
     context 'if block is given' do
       it 'Count all the elements in the array that return true in the block' do
